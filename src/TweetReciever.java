@@ -1,6 +1,10 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -11,31 +15,36 @@ import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 
-public class TweetReciever {
-	
+public class TweetReciever implements ActionListener {
+	JTextField searchbar = new JTextField(20);
+	JLabel newlabel = new JLabel();
+	JPanel newpanel = new JPanel();
+	JFrame newframe = new JFrame();
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		JFrame newframe = new JFrame();
-		JPanel newpanel = new JPanel();
+		TweetReciever x = new TweetReciever();
+		x.setup();
+
+	}
+	void setup () {
+		
+		
 		newframe.setVisible(true);
 		newframe.setSize(400, 100);
 		JButton search = new JButton("Search the Twitterverse");
 		search.setSize(200,75);
-		newpanel.add(search);
 		search.addActionListener(this);
-		JTextField searchbar = new JTextField(20);
+		newpanel.add(search);
+		
 		
 		
 		newpanel.add(searchbar);
 		
 		newframe.add(newpanel);
 		newframe.pack();
-		
-
 	}
-	
 	private static String getLatestTweet(String searchingFor) {
-
+		
 	      Twitter twitter = new TwitterFactory().getInstance();
 
 	      AccessToken accessToken = new AccessToken(
@@ -56,7 +65,14 @@ public class TweetReciever {
 	            return "What the heck is that?";
 	            
 	      }
-	      
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		String xyz = getLatestTweet(searchbar.getText());
+		newlabel.setText(xyz);
+		newpanel.add(newlabel);
+		newframe.pack();
 	}
 	
 }
